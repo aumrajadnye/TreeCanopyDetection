@@ -1,0 +1,11 @@
+[project]
+name = "treecanopydetection"
+version = "0.1.0"
+description = "Solafune Hackathon - Tree Canopy Detection"
+readme = "README.md"
+requires-python = ">=3.7"
+dependencies = []
+authors = [
+    { name = "Aum Rajadnye", email = ""},
+    { name = "Keinisha Joshi", email = ""}
+    ]
