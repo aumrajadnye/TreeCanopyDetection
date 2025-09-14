@@ -1,0 +1,9 @@
+data:
+  bbox_training_annotations: ./data/train_bbox_annotations.json
+  segment_training_annotations: ./data/train_segmentation_annotations.json
+  bbox_train: ./data/train_bbox_images
+  segmentation_train: ./data/train_segmentation_images
+  labeltype: yolo
+
+prelim:
+  train_validation_split: 0.9
