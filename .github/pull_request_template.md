@@ -20,8 +20,7 @@ that_other_file (removed)
 
  
 
-### Fixes #(issue)
-Type of Change
+### Type of Change:
 
 <!-- Mark the appropriate options -->
 
