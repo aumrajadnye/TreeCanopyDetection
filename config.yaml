@@ -7,3 +7,10 @@ data:
 
 prelim:
   train_validation_split: 0.9
+
+augmentation:
+  horizontal_flip: true
+  vertical_flip: true
+  rotation: true
+  brightness_adjustment: true
+  zoom: true

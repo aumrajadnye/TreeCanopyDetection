@@ -109,7 +109,8 @@ def create_txt_files_coco_format(input_json_path, output_directory, logger=None)
     
     # Get unique categories and create category to ID mapping
     categories = set()
-    for item in input_data:
+    # for item in input_data:
+    for item in input_data['images']:
         for annotation in item.get('annotations', []):
             categories.add(annotation['class'])
     
@@ -120,7 +121,8 @@ def create_txt_files_coco_format(input_json_path, output_directory, logger=None)
     logger.info(f"Category mapping: {category_to_id}")
     
     # Process each image
-    for item in input_data:
+    # for item in input_data:
+    for item in input_data['images']:
         # Get filename without extension
         base_filename = os.path.splitext(item["file_name"])[0]
         txt_filename = f"{base_filename}.txt"
@@ -129,13 +131,21 @@ def create_txt_files_coco_format(input_json_path, output_directory, logger=None)
         # Create content for this image's txt file
         lines = []
         for annotation in item.get('annotations', []):
-            bbox = annotation['bbox']
-            x, y, width, height = bbox
-            
+            # bbox = annotation['bbox']
+            # x, y, width, height = bbox
             class_id = category_to_id[annotation['class']]
+            points = annotation["segmentation"]
+
+            # Normalize coordinates
+            norm_points = []
+            for i in range(0, len(points), 2):
+                x = points[i] / item["width"]
+                y = points[i + 1] / item["height"]
+                norm_points.extend([f"{x:.6f}", f"{y:.6f}"])
             
             # Format: class_id x y width height (COCO format - absolute coordinates)
-            line = f"{class_id} {x:.3f} {y:.3f} {width:.3f} {height:.3f}"
+            # line = f"{class_id} {x:.3f} {y:.3f} {width:.3f} {height:.3f}"
+            line = f"{class_id} " + " ".join(norm_points)
             lines.append(line)
         
         # Write to txt file
@@ -335,24 +345,3 @@ def convert_from_list(input_data_list, output_json_path):
     print(f"Total categories: {len(coco_data['categories'])}")
     print(f"Categories: {[cat['name'] for cat in coco_data['categories']]}") #noqa
     print(f"Output saved to: {output_json_path}")
-
-# Example usage:
-if __name__ == "__main__":
-    # Create .txt files for each image (YOLO format - normalized)
-    # create_txt_files('your_annotations.json', 'output_txt_directory')
-    
-    # Create .txt files for each image (COCO format - absolute coordinates)  
-    # create_txt_files_coco_format('your_annotations.json', 'output_txt_directory')
-    
-    # Convert to full COCO JSON format
-    # convert_to_coco_format('your_annotations.json', 'coco_annotations.json')
-
-    print("Available functions:")
-    print("1. create_txt_files(input_json, output_dir) - Creates YOLO format .txt files")
-    print("2. create_txt_files_coco_format(input_json, output_dir) - Creates COCO format .txt files") 
-    print("3. convert_to_coco_format(input_json, output_json) - Creates full COCO JSON")
-    print()
-    print("Example usage:")
-    print("create_txt_files('annotations.json', 'labels_yolo/')")
-    print("create_txt_files_coco_format('annotations.json', 'labels_coco/')")
-    print("convert_to_coco_format('annotations.json', 'coco_dataset.json')")
