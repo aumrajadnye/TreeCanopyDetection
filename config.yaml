@@ -3,14 +3,16 @@ data:
   segment_training_annotations: ./data/train_segmentation_annotations.json
   bbox_train: ./data/train_bbox_images
   segmentation_train: ./data/train_segmentation_images
-  labeltype: yolo
+  labeltype: coco
 
 prelim:
   train_validation_split: 0.9
 
 augmentation:
-  horizontal_flip: true
-  vertical_flip: true
-  rotation: true
-  brightness_adjustment: true
-  zoom: true
+  enable: true
+  gamma:
+    apply: true
+    range: [0.8, 1.2]     # 1.0 = no change; values <1 darken, >1 brighten
+  contrast:
+    apply: true
+    range: [0.8, 1.3]     # 1.0 = no change; values <1 decrease contrast, >1 increase contrast
