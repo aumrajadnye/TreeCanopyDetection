@@ -21,6 +21,21 @@ else:
     logger.setLevel(logging.WARNING)
 logger.addHandler(stdout_log_handler)
 
+def augment_image(image, config):
+        # Gamma correction
+        if config.get("gamma", {}).get("apply", False):
+            gamma_min, gamma_max = config["gamma"]["range"]
+            gamma = random.uniform(gamma_min, gamma_max)
+            image = np.power(image / 255.0, gamma)
+            image = np.clip(image * 255, 0, 255).astype(np.uint8)
+
+        # Contrast adjustment
+        if config.get("contrast", {}).get("apply", False):
+            contrast_min, contrast_max = config["contrast"]["range"]
+            contrast = random.uniform(contrast_min, contrast_max)
+            mean = np.mean(image)
+            image = np.clip((image - mean) * contrast + mean, 0, 255).astype(np.uint8)
+        return image
 
 def main():
     with open("config.yaml", "r") as file:
@@ -29,23 +44,9 @@ def main():
     bbox_annotations = config['data']['bbox_training_annotations']
     segment_annotations = config['data']['segment_training_annotations']
     labeltype = config['data']['labeltype']
-    aug_cfg = config.get("augmentation", {})
+    aug_config = config.get("augmentation", {})
 
-    def augment_image(image):
-        # Gamma correction
-        if aug_cfg.get("gamma", {}).get("apply", False):
-            gamma_min, gamma_max = aug_cfg["gamma"]["range"]
-            gamma = random.uniform(gamma_min, gamma_max)
-            image = np.power(image / 255.0, gamma)
-            image = np.clip(image * 255, 0, 255).astype(np.uint8)
-
-        # Contrast adjustment
-        if aug_cfg.get("contrast", {}).get("apply", False):
-            contrast_min, contrast_max = aug_cfg["contrast"]["range"]
-            contrast = random.uniform(contrast_min, contrast_max)
-            mean = np.mean(image)
-            image = np.clip((image - mean) * contrast + mean, 0, 255).astype(np.uint8)
-        return image
+    augmented_image = augment_image(np.zeros((100, 100, 3), dtype=np.uint8), aug_config)
 
     if labeltype == 'coco':
         # create_txt_files_coco_format(bbox_annotations, 'data/labels/', logger=logger)
