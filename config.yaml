@@ -1,8 +1,6 @@
 data:
-  bbox_training_annotations: ./data/train_bbox_annotations.json
   segment_training_annotations: data/train_annotations.json
-  bbox_train: ./data/train_bbox_images
-  segmentation_train: ./data/train_segmentation_images
+  segmentation_train: /data/train_images
   labeltype: coco
 
 prelim:
@@ -12,15 +10,22 @@ augmentation:
   enable: true
   gamma:
     range: [0.0, 2.0]     # 1.0 = no change; values <1 darken, >1 brighten
-    default: 1.0
+    default: 2.0
   contrast:
     range: [0.0, 2.0]     # 1.0 = no change; values <1 decrease contrast, >1 increase contrast
-    default: 1.0
+    default: 0.0
   zoom:
     range: [0, 10]     # 5.0 = current zoom, zoom in < 5 > zoom out
-    default: 5.0
+    default: 1.0
+  rotation:
+    range: [-45, 45]        # rotate randomly between -45° and 45°
+    default: 35
   flip:
-    flip:
     horizontal: [0.0, 1.0]  # range for horizontal flip
     vertical: [0.0, 1.0]    # range for vertical flip
-    default: 0              # default = no flip if random not applied
+    default: 0.5              # default = no flip if random not applied
+  hue_saturation:
+    h_range: [-10, 10]      # shift hue in degrees
+    s_range: [-15, 15]      # shift saturation
+    v_range: [-10, 10]      # shift brightness/value
+    default: 0

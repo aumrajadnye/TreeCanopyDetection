@@ -1,9 +1,10 @@
 import yaml
 import logging
 import sys
-import random
 import numpy as np
+from pathlib import Path
 
+from data_preprocessing.augment_images import  augment_dataset
 from data_preprocessing.convert_labels import  create_txt_files, create_txt_files_coco_format
 from data_preprocessing.sort_image_labels import split_dataset
 
@@ -21,41 +22,26 @@ else:
     logger.setLevel(logging.WARNING)
 logger.addHandler(stdout_log_handler)
 
-def augment_image(image, config):
-        # Gamma correction
-        if config.get("gamma", {}).get("apply", False):
-            gamma_min, gamma_max = config["gamma"]["range"]
-            gamma = random.uniform(gamma_min, gamma_max)
-            image = np.power(image / 255.0, gamma)
-            image = np.clip(image * 255, 0, 255).astype(np.uint8)
-
-        # Contrast adjustment
-        if config.get("contrast", {}).get("apply", False):
-            contrast_min, contrast_max = config["contrast"]["range"]
-            contrast = random.uniform(contrast_min, contrast_max)
-            mean = np.mean(image)
-            image = np.clip((image - mean) * contrast + mean, 0, 255).astype(np.uint8)
-        return image
-
 def main():
     with open("config.yaml", "r") as file:
         config = yaml.safe_load(file)
 
-    bbox_annotations = config['data']['bbox_training_annotations']
+    # bbox_annotations = config['data']['bbox_training_annotations']
     segment_annotations = config['data']['segment_training_annotations']
     labeltype = config['data']['labeltype']
     aug_config = config.get("augmentation", {})
-
-    augmented_image = augment_image(np.zeros((100, 100, 3), dtype=np.uint8), aug_config)
+    input_dir = "data/train_images/"
+    output_dir = "data/augmented_images"
+    augmented_images = augment_dataset(input_dir, output_dir, aug_config, logger)
 
     if labeltype == 'coco':
         # create_txt_files_coco_format(bbox_annotations, 'data/labels/', logger=logger)
         create_txt_files_coco_format(segment_annotations, 'data/labels/', logger=logger)
     if labeltype == 'yolo':
-        create_txt_files(bbox_annotations, 'data/labels/', logger=logger)
+        # create_txt_files(bbox_annotations, 'data/labels/', logger=logger)
         create_txt_files(segment_annotations, 'data/labels/', logger=logger)
     
-    split_dataset(config['data']['bbox_train'], 'data/labels/', config_path="config.yaml", logger=logger)
+    # split_dataset(config['data']['segmentation_train'], 'data/labels/', config_path="config.yaml", logger=logger)
 
 if __name__ == "__main__":
     main()
