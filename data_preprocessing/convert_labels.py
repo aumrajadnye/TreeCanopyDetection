@@ -109,7 +109,8 @@ def create_txt_files_coco_format(input_json_path, output_directory, logger=None)
     
     # Get unique categories and create category to ID mapping
     categories = set()
-    for item in input_data:
+    # for item in input_data:
+    for item in input_data['images']:
         for annotation in item.get('annotations', []):
             categories.add(annotation['class'])
     
@@ -120,7 +121,8 @@ def create_txt_files_coco_format(input_json_path, output_directory, logger=None)
     logger.info(f"Category mapping: {category_to_id}")
     
     # Process each image
-    for item in input_data:
+    # for item in input_data:
+    for item in input_data['images']:
         # Get filename without extension
         base_filename = os.path.splitext(item["file_name"])[0]
         txt_filename = f"{base_filename}.txt"
@@ -129,13 +131,21 @@ def create_txt_files_coco_format(input_json_path, output_directory, logger=None)
         # Create content for this image's txt file
         lines = []
         for annotation in item.get('annotations', []):
-            bbox = annotation['bbox']
-            x, y, width, height = bbox
-            
+            # bbox = annotation['bbox']
+            # x, y, width, height = bbox
             class_id = category_to_id[annotation['class']]
+            points = annotation["segmentation"]
+
+            # Normalize coordinates
+            norm_points = []
+            for i in range(0, len(points), 2):
+                x = points[i] / item["width"]
+                y = points[i + 1] / item["height"]
+                norm_points.extend([f"{x:.6f}", f"{y:.6f}"])
             
             # Format: class_id x y width height (COCO format - absolute coordinates)
-            line = f"{class_id} {x:.3f} {y:.3f} {width:.3f} {height:.3f}"
+            # line = f"{class_id} {x:.3f} {y:.3f} {width:.3f} {height:.3f}"
+            line = f"{class_id} " + " ".join(norm_points)
             lines.append(line)
         
         # Write to txt file
@@ -158,77 +168,90 @@ def convert_to_coco_format(input_json_path, output_json_path, logger=None):
     
     # Initialize COCO format structure
     coco_data = {
-        "info": {
-            "description": "Vacant lot detection dataset",
-            "url": "",
-            "version": "1.0",
-            "year": datetime.now().year,
-            "contributor": "",
-            "date_created": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        },
-        "licenses": [
-            {
-                "id": 1,
-                "name": "Unknown",
-                "url": ""
-            }
-        ],
+        # "info": {
+        #     "description": "Vacant lot detection dataset",
+        #     "url": "",
+        #     "version": "1.0",
+        #     "year": datetime.now().year,
+        #     "contributor": "",
+        #     "date_created": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        # },
+        # "licenses": [
+        #     {
+        #         "id": 1,
+        #         "name": "Unknown",
+        #         "url": ""
+        #     }
+        # ],
         "images": [],
-        "annotations": [],
-        "categories": []
+        # "annotations": [],
+        # "categories": []
     }
     
     # Get unique categories from the data
     categories = set()
-    for item in input_data:
+    for item in input_data['images']:
         for annotation in item.get('annotations', []):
             categories.add(annotation['class'])
     
     # Create categories list with IDs
     category_to_id = {}
-    for idx, category in enumerate(sorted(categories), 1):
+    # for idx, category in enumerate(sorted(categories), 1):
+    #     category_to_id[category] = idx
+    #     coco_data["categories"].append({
+    #         "id": idx,
+    #         "name": category,
+    #         "supercategory": ""
+    #     })
+    for idx, category in enumerate(sorted(categories)):
         category_to_id[category] = idx
-        coco_data["categories"].append({
-            "id": idx,
-            "name": category,
-            "supercategory": ""
-        })
     
     # Convert images and annotations
     annotation_id = 1
     
-    for image_id, item in enumerate(input_data, 1):
+    for image_id, item in enumerate(input_data['images'], 1):
         # Add image info
         coco_data["images"].append({
-            "id": image_id,
+            "file_name": item["file_name"],
             "width": item["width"],
             "height": item["height"],
-            "file_name": item["file_name"],
-            "license": 1,
-            "flickr_url": "",
-            "coco_url": "",
-            "date_captured": ""
+            "cm_resolution": item["cm_resolution"],
+            "scene_type": item["scene_type"],
+            "annotations": []
+            # "license": 1,
+            # "flickr_url": "",
+            # "coco_url": "",
+            # "date_captured": ""
         })
         
         # Add annotations for this image
         for annotation in item.get('annotations', []):
-            bbox = annotation['bbox']
-            x, y, width, height = bbox
+            # bbox = annotation['bbox']
+            # x, y, width, height = bbox
+            lines = []
+        for annotation in item.get('annotations', []):
+            # bbox = annotation['bbox']
+            # x, y, width, height = bbox
+            class_id = category_to_id[annotation['class']]
+            points = annotation["segmentation"]
+
+            # Normalize coordinates
+            norm_points = []
+            for i in range(0, len(points), 2):
+                x = points[i] / item["width"]
+                y = points[i + 1] / item["height"]
+                norm_points.extend([f"{x:.6f}", f"{y:.6f}"])
             
-            # Calculate area
-            area = width * height
+            # Format: class_id x y width height (COCO format - absolute coordinates)
+            # line = f"{class_id} {x:.3f} {y:.3f} {width:.3f} {height:.3f}"
+            line = f"{class_id} " + " ".join(norm_points)
+            lines.append(line)
             
-            coco_data["annotations"].append({
-                "id": annotation_id,
-                "image_id": image_id,
-                "category_id": category_to_id[annotation['class']],
-                "segmentation": [],  # Empty for bounding box only
-                "area": area,
-                "bbox": [x, y, width, height],
-                "iscrowd": 0
+            coco_data["images"][-1]["annotations"].append({
+                "class": annotation['class'],
+                "confidence_score": annotation['confidence_score'],
+                "segmentation": lines,  # Empty for bounding box only
             })
-            
-            annotation_id += 1
     
     # Save to output file
     with open(output_json_path, 'w') as f:
@@ -336,23 +359,5 @@ def convert_from_list(input_data_list, output_json_path):
     print(f"Categories: {[cat['name'] for cat in coco_data['categories']]}") #noqa
     print(f"Output saved to: {output_json_path}")
 
-# Example usage:
 if __name__ == "__main__":
-    # Create .txt files for each image (YOLO format - normalized)
-    # create_txt_files('your_annotations.json', 'output_txt_directory')
-    
-    # Create .txt files for each image (COCO format - absolute coordinates)  
-    # create_txt_files_coco_format('your_annotations.json', 'output_txt_directory')
-    
-    # Convert to full COCO JSON format
-    # convert_to_coco_format('your_annotations.json', 'coco_annotations.json')
-
-    print("Available functions:")
-    print("1. create_txt_files(input_json, output_dir) - Creates YOLO format .txt files")
-    print("2. create_txt_files_coco_format(input_json, output_dir) - Creates COCO format .txt files") 
-    print("3. convert_to_coco_format(input_json, output_json) - Creates full COCO JSON")
-    print()
-    print("Example usage:")
-    print("create_txt_files('annotations.json', 'labels_yolo/')")
-    print("create_txt_files_coco_format('annotations.json', 'labels_coco/')")
-    print("convert_to_coco_format('annotations.json', 'coco_dataset.json')")
+    convert_to_coco_format('data_preprocessing/train_annotations.json', 'coco_format_train.json')
