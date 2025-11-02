@@ -1,0 +1,106 @@
+You are an expert in computer vision, semantic segmentation, and OpenMMLab frameworks.
+
+Build a complete, production-ready setup to *train and evaluate a semantic segmentation model* using *OpenMMLab MMSegmentation* and *Segment Anything (SAM)* on *custom COCO-format data* (with segmentations instead of bounding boxes).
+
+The solution should include two Python scripts in the following folder structure:
+
+
+training/
+   ├── model_training.py
+   └── post_processing.py
+
+
+#### *1️⃣ model_training.py*
+
+* Use MMSegmentation & Segment-Anything Model 2 to train a semantic segmentation model on the dataset.
+* Dataset is in *COCO format* (with polygons/segmentations, not bboxes).
+* Do *NOT* apply any data augmentation.
+* Perform basic *hyperparameter tuning* (batch size, learning rate, optimizer, number of epochs).
+* Compute and print the following metrics after training:
+
+  * IoU@50
+  * IoU@75
+  * IoU@100
+  * Confidence Score
+  * mAP (mean average precision)
+  * mAR (mean average recall)
+* Save the *trained model weights* (e.g., sam_weights.pth, mmseg_weights.pth) at the end of training.
+* Include clear comments for each major step: dataset loading, model configuration, training, evaluation, and saving weights.
+
+#### *2️⃣ post_processing.py*
+
+* Load the trained MMSegmentation model’s results and SAM’s segmentation outputs.
+
+* Implement a function that computes an *aggregated score* for comparison:
+
+  
+  aggregated_score = k * confidence_score + IoU
+  
+
+  where k is a configurable weight.
+
+* Compare MMSegmentation and SAM outputs for the same image(s) and select the *best-performing model* based on this aggregated score.
+
+* Print and optionally save the final comparison results.
+
+#### *Other Notes:*
+
+* Use only PyTorch-based implementations.
+* Make sure the code runs with standard MMSegmentation + Segment Anything installation.
+* Include clear docstrings, comments, and modular functions.
+* No data augmentation or random transformations.
+* Ensure reproducibility (fix random seeds).
+
+
+
+this is what the input json looks like 
+{
+    "images": [
+        {
+            "file_name": "10cm_train_1.tif",
+            "width": 1024,
+            "height": 1024,
+            "cm_resolution": 10,
+            "scene_type": "agriculture_plantation",
+            "annotations": [
+                {
+                    "class": "individual_tree",
+                    "confidence_score": 1.0,
+                    "segmentation": [
+                        4.0,
+                        146.0,
+                        18.0,
+                        149.0,
+                        17.0,
+                        160.0,
+                        6.0,
+                        162.0,
+                        0.0,
+                        152.0
+                    ]
+                },
+
+and expected output looks like
+{
+    "images": [
+        {
+            "file_name": "10cm_evaluation_1.tif",
+            "width": 1024,
+            "height": 1024,
+            "cm_resolution": 10,
+            "scene_type": "industrial_area",
+            "annotations": [
+                {
+                    "class": "group_of_trees",
+                    "confidence_score": 0.85,
+                    "segmentation": [
+                        708,
+                        967,
+                        230,
+                        238,
+                        237,
+                        461,
+                        486,
+                        355
+                    ]
+                },
