@@ -29,10 +29,10 @@ def main():
     # bbox_annotations = config['data']['bbox_training_annotations']
     segment_annotations = config['data']['segment_training_annotations']
     labeltype = config['data']['labeltype']
-    aug_config = config.get("augmentation", {})
-    input_dir = "data/train_images/"
-    output_dir = "data/augmented_images"
-    augmented_images = augment_dataset(input_dir, output_dir, aug_config, logger)
+    # aug_config = config.get("augmentation", {})
+    # input_dir = "data/train_images/"
+    # output_dir = "data/augmented_images"
+    # augmented_images = augment_dataset(input_dir, output_dir, aug_config, logger)
 
     if labeltype == 'coco':
         # create_txt_files_coco_format(bbox_annotations, 'data/labels/', logger=logger)
