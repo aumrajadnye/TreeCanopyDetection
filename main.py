@@ -5,7 +5,7 @@ import numpy as np
 from pathlib import Path
 
 # from data_preprocessing.augment_images import  augment_dataset
-from data_preprocessing.convert_labels import  convert_to_coco_format
+from data_preprocessing.convert_labels import  convert_to_coco_format, create_segmentation_masks
 from data_preprocessing.sort_image_labels import split_dataset
 
 DEBUG_MODE = True
@@ -39,6 +39,8 @@ def main():
         split_ratio=0.8,
         logger=logger
     )
+
+    create_segmentation_masks(base_dir="data/training_data_object_detection", logger=logger)
 
 if __name__ == "__main__":
     main()

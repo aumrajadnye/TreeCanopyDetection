@@ -3,10 +3,23 @@ import random
 from pathlib import Path
 import logging
 import json
+from PIL import Image
 
-def split_dataset(image_dir, coco_json_path, output_base="data/training_data_object_detection", split_ratio=0.8, logger=None):
+def split_dataset(image_dir, coco_json_path, output_base="data/training_data_object_detection", split_ratio=0.8, seed=42, logger=None):
+    """
+    Splits a dataset of images and COCO annotations into train and validation sets.
+
+    Args:
+        image_dir (str or Path): Folder containing all images.
+        coco_json_path (str or Path): Path to COCO annotations JSON file.
+        output_base (str or Path): Base output folder to store split images and annotations.
+        split_ratio (float): Ratio of train images (e.g., 0.8 for 80% train, 20% val).
+        seed (int): Random seed for reproducibility.
+        logger (logging.Logger): Optional logger.
+    """
     # Initialize logger
     logger = logging.getLogger(__name__) if logger is None else logger
+    random.seed(seed)
 
     image_dir = Path(image_dir)
     coco_json_path = Path(coco_json_path)
@@ -20,19 +33,14 @@ def split_dataset(image_dir, coco_json_path, output_base="data/training_data_obj
     annotations = coco["annotations"]
     categories = coco["categories"]
 
-    # Collect image filenames available in directory
+    # Collect image filenames in directory
     image_files = sorted([p for p in image_dir.glob("*") if p.suffix.lower() in [".jpg", ".jpeg", ".png", ".tif"]])
-    image_filenames = [p.name for p in image_files]
 
     # Shuffle and split images
     random.shuffle(image_files)
     split_point = int(len(image_files) * split_ratio)
-
     train_imgs = image_files[:split_point]
     val_imgs = image_files[split_point:]
-
-    train_fnames = set([p.name for p in train_imgs])
-    val_fnames = set([p.name for p in val_imgs])
 
     # Output folders
     img_train_out = output_base / "images/train"
@@ -43,52 +51,58 @@ def split_dataset(image_dir, coco_json_path, output_base="data/training_data_obj
     img_val_out.mkdir(parents=True, exist_ok=True)
     ann_out.mkdir(parents=True, exist_ok=True)
 
-    # Copy images to new structure
+    def save_image(p, out_dir):
+        """Convert .tif to .png and save, otherwise copy."""
+        if p.suffix.lower() == ".tif":
+            png_name = p.stem + ".png"
+            out_path = out_dir / png_name
+            im = Image.open(p)
+            im.save(out_path, format="PNG")
+            return png_name
+        else:
+            shutil.copy2(p, out_dir / p.name)
+        return p.name
+
+    # Copy images
     for p in train_imgs:
-        shutil.copy(p, img_train_out)
+        save_image(p, img_train_out)
 
     for p in val_imgs:
-        shutil.copy(p, img_val_out)
+        save_image(p, img_val_out)
+
+    # image_files = sorted([p.with_suffix(".png") if p.suffix.lower() == ".tif" else p 
+    #                   for p in image_dir.glob("*") 
+    #                   if p.suffix.lower() in [".jpg", ".jpeg", ".png", ".tif"]])
+    # train_imgs = image_files[:split_point]
+    # val_imgs = image_files[split_point:]
+    def actual_saved_name(path):
+        if path.suffix.lower() == ".tif":
+            return path.stem + ".png"  # converted
+        else:
+            return path.name           # original
+
+    train_fnames = { actual_saved_name(p) for p in img_train_out.glob("*") }
+    val_fnames   = { actual_saved_name(p) for p in img_val_out.glob("*") }
 
     # Split COCO JSON
-    train_images_json = []
-    val_images_json = []
-    train_ids = set()
-    val_ids = set()
+    train_images_json = [img for img in images if Path(img["file_name"]).name in train_fnames]
+    val_images_json   = [img for img in images if Path(img["file_name"]).name in val_fnames]
 
-    for img in images:
-        fname = Path(img["file_name"]).name
-        if fname in train_fnames:
-            train_images_json.append(img)
-            train_ids.add(img["id"])
-        elif fname in val_fnames:
-            val_images_json.append(img)
-            val_ids.add(img["id"])
+    train_ids = set(img["id"] for img in train_images_json)
+    val_ids   = set(img["id"] for img in val_images_json)
 
     train_annotations = [a for a in annotations if a["image_id"] in train_ids]
     val_annotations   = [a for a in annotations if a["image_id"] in val_ids]
 
     # Save train.json
-    train_json = {
-        "images": train_images_json,
-        "annotations": train_annotations,
-        "categories": categories
-    }
     with open(ann_out / "train.json", "w") as f:
-        json.dump(train_json, f, indent=4)
+        json.dump({"images": train_images_json, "annotations": train_annotations, "categories": categories}, f, indent=4)
 
     # Save val.json
-    val_json = {
-        "images": val_images_json,
-        "annotations": val_annotations,
-        "categories": categories
-    }
     with open(ann_out / "val.json", "w") as f:
-        json.dump(val_json, f, indent=4)
+        json.dump({"images": val_images_json, "annotations": val_annotations, "categories": categories}, f, indent=4)
 
-    print(f"Done!")
-    print(f"Train images: {len(train_imgs)}")
-    print(f"Val images:   {len(val_imgs)}")
+    print(f"Done! Train images: {len(train_imgs)}, Val images: {len(val_imgs)}")
     print(f"Saved train.json and val.json in: {ann_out}")
     logger.info(f"Split complete. Train: {len(train_imgs)} images, Val: {len(val_imgs)} images.")
 

@@ -3,6 +3,8 @@ import os
 import sys
 from datetime import datetime
 import logging
+from PIL import Image, ImageDraw
+from pathlib import Path
 
 # def create_txt_files(input_json_path, output_directory, logger=None):
 #     """
@@ -157,6 +159,78 @@ import logging
     
 #     return category_to_id
 
+def create_segmentation_masks(base_dir="data/training_data_object_detection", logger=None):
+    """
+    Creates colored segmentation overlays (red/blue transparent highlights)
+    on top of the original images.
+    """
+
+    logger = logging.getLogger(__name__) if logger else None
+
+    base_dir = Path(base_dir)
+    images_base = base_dir / "images"
+    annotations_base = base_dir / "annotations"
+    overlays_base = base_dir / "seg_overlays"
+
+    overlays_base.mkdir(parents=True, exist_ok=True)
+
+    subsets = ["train", "val"]
+
+    # Red and Blue overlays with transparency
+    CATEGORY_COLORS = {
+        1: (255, 0, 0, 120),   # red with transparency
+        2: (0, 0, 255, 120)    # blue with transparency
+    }
+
+    for subset in subsets:
+        images_dir = images_base / subset
+        ann_json_path = annotations_base / f"{subset}.json"
+        out_dir = overlays_base / subset
+        out_dir.mkdir(parents=True, exist_ok=True)
+
+        # Load annotations
+        with open(ann_json_path, "r") as f:
+            coco = json.load(f)
+
+        id_to_filename = {img["id"]: img["file_name"] for img in coco["images"]}
+
+        image_annotations = {}
+        for ann in coco["annotations"]:
+            image_annotations.setdefault(ann["image_id"], []).append(ann)
+
+        # Process each image
+        for img_id, filename in id_to_filename.items():
+            img_path = images_dir / filename
+            if not img_path.exists():
+                print(f"Missing image in {subset}: {img_path}")
+                continue
+
+            # Load base image (convert to RGBA for overlay support)
+            image = Image.open(img_path).convert("RGBA")
+
+            # Transparent canvas for drawing polygons
+            overlay = Image.new("RGBA", image.size, (0, 0, 0, 0))
+            draw = ImageDraw.Draw(overlay)
+
+            anns = image_annotations.get(img_id, [])
+
+            for ann in anns:
+                color = CATEGORY_COLORS.get(ann["category_id"], (255, 255, 255, 120))
+
+                for seg in ann["segmentation"]:
+                    poly = [(int(seg[i]), int(seg[i + 1])) for i in range(0, len(seg), 2)]
+                    draw.polygon(poly, fill=color)
+
+            # Combine original + overlay
+            combined = Image.alpha_composite(image, overlay)
+
+            # Save overlay
+            out_path = out_dir / (Path(filename).stem + "_overlay.png")
+            combined.save(out_path)
+
+            print(f"[{subset}] Saved overlay: {out_path}")
+
+    print("Overlay generation completed.")
 
 def convert_to_coco_format(input_json_path, output_json_path, logger=None):
 
@@ -194,7 +268,8 @@ def convert_to_coco_format(input_json_path, output_json_path, logger=None):
     annotation_id = 1  # COCO annotation IDs must be unique
 
     for image_id, img in enumerate(input_data["images"], start=1):
-
+        if img["file_name"].lower().endswith('.tif'):
+            img["file_name"] = img["file_name"][:-4] + ".png"
         # Add image entry
         coco_data["images"].append({
             "id": image_id,
