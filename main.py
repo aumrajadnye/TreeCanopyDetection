@@ -35,6 +35,7 @@ def main():
     split_dataset(
         image_dir="data/train_images",
         coco_json_path="data/coco_annotations.json",
+        test_imgs="data/evaluation_images",
         output_base="data/training_data_object_detection", 
         split_ratio=0.8,
         logger=logger

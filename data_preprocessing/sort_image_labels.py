@@ -5,7 +5,7 @@ import logging
 import json
 from PIL import Image
 
-def split_dataset(image_dir, coco_json_path, output_base="data/training_data_object_detection", split_ratio=0.8, seed=42, logger=None):
+def split_dataset(image_dir, coco_json_path, test_imgs, output_base="data/training_data_object_detection", split_ratio=0.8, seed=42, logger=None):
     """
     Splits a dataset of images and COCO annotations into train and validation sets.
 
@@ -22,6 +22,7 @@ def split_dataset(image_dir, coco_json_path, output_base="data/training_data_obj
     random.seed(seed)
 
     image_dir = Path(image_dir)
+    test_dir = Path(test_imgs)
     coco_json_path = Path(coco_json_path)
     output_base = Path(output_base)
 
@@ -35,6 +36,7 @@ def split_dataset(image_dir, coco_json_path, output_base="data/training_data_obj
 
     # Collect image filenames in directory
     image_files = sorted([p for p in image_dir.glob("*") if p.suffix.lower() in [".jpg", ".jpeg", ".png", ".tif"]])
+    test_files = sorted([p for p in test_dir.glob("*") if p.suffix.lower() in [".jpg", ".jpeg", ".png", ".tif"]])
 
     # Shuffle and split images
     random.shuffle(image_files)
@@ -46,10 +48,12 @@ def split_dataset(image_dir, coco_json_path, output_base="data/training_data_obj
     img_train_out = output_base / "images/train"
     img_val_out   = output_base / "images/val"
     ann_out       = output_base / "annotations"
+    test_out      = output_base / "images/test"
 
     img_train_out.mkdir(parents=True, exist_ok=True)
     img_val_out.mkdir(parents=True, exist_ok=True)
     ann_out.mkdir(parents=True, exist_ok=True)
+    test_out.mkdir(parents=True, exist_ok=True)
 
     def save_image(p, out_dir):
         """Convert .tif to .png and save, otherwise copy."""
@@ -69,6 +73,9 @@ def split_dataset(image_dir, coco_json_path, output_base="data/training_data_obj
 
     for p in val_imgs:
         save_image(p, img_val_out)
+        
+    for p in test_files:
+        save_image(p, test_out)
 
     # image_files = sorted([p.with_suffix(".png") if p.suffix.lower() == ".tif" else p 
     #                   for p in image_dir.glob("*") 

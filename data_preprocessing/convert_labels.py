@@ -225,7 +225,7 @@ def create_segmentation_masks(base_dir="data/training_data_object_detection", lo
             combined = Image.alpha_composite(image, overlay)
 
             # Save overlay
-            out_path = out_dir / (Path(filename).stem + "_overlay.png")
+            out_path = out_dir / (Path(filename).stem + ".png")
             combined.save(out_path)
 
             print(f"[{subset}] Saved overlay: {out_path}")
