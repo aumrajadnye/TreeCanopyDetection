@@ -7,6 +7,6 @@ steps:
 - in terminal:
     - activate .venv by ".venv/Scripts/activate"
     - $env:PYTHONPATH="C:\Users\keini\OneDrive\Desktop\Code\TreeCanopyDetection"
-    - python ../mmsegmentation/tools/train.py configs\fcn_unet_s5-d16_128x128_40k_stare.py (succesful if work_dirs has a .pth file)
+    - python ../mmsegmentation/tools/train.py configs\trcnpy_cnfg.py (succesful if work_dirs has a .pth file)
 
 
