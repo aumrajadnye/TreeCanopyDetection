@@ -234,69 +234,81 @@ def create_segmentation_masks(base_dir="data/training_data_object_detection", lo
 
 def create_mmseg_masks(base_dir="data/training_data_object_detection", logger=None):
     """
-    Create MMSegmentation-compatible grayscale masks.
-    Maps COCO category_id -> 0..num_classes-1
+    Creates segmentation masks (1-channel PNGs) for MMSeg based on COCO polygons.
+    Class IDs are written as pixel values:
+        background = 0
+        class1 = 1
+        class2 = 2
     """
 
-    logger = logging.getLogger(__name__) if logger is None else logger
+    import json
+    import numpy as np
+    from pathlib import Path
+    from PIL import Image, ImageDraw
+    import logging
+
+    logger = logging.getLogger(__name__) if logger else None
 
     base_dir = Path(base_dir)
     images_base = base_dir / "images"
     annotations_base = base_dir / "annotations"
     masks_base = base_dir / "mmseg_masks"
 
+    masks_base.mkdir(parents=True, exist_ok=True)
+
     subsets = ["train", "val"]
 
     for subset in subsets:
         images_dir = images_base / subset
         ann_json_path = annotations_base / f"{subset}.json"
-        masks_dir = masks_base / subset
-        masks_dir.mkdir(parents=True, exist_ok=True)
+        out_dir = masks_base / subset
+        out_dir.mkdir(parents=True, exist_ok=True)
 
-        # Load JSON
+        print(f"Creating masks for {subset}...")
+
+        # Load annotations
         with open(ann_json_path, "r") as f:
             coco = json.load(f)
 
-        # ----- BUILD CATEGORY-ID -> MMSeg-LABEL mapping -----
-        cat_ids = sorted([cat["id"] for cat in coco["categories"]])
-        cat2label = {cat_id: idx for idx, cat_id in enumerate(cat_ids)}
-        print("Category mapping:", cat2label)
+        # Map image_id -> filename
+        id_to_filename = {img["id"]: img["file_name"] for img in coco["images"]}
 
-        # Map image IDs to filenames
-        id_to_filename = {img['id']: img['file_name'] for img in coco['images']}
-
-        # Group annotations
+        # Group annotations by image
         image_annotations = {}
-        for ann in coco['annotations']:
+        for ann in coco["annotations"]:
             image_annotations.setdefault(ann["image_id"], []).append(ann)
 
-        # Create masks
+        # Process each image
         for img_id, filename in id_to_filename.items():
             img_path = images_dir / filename
             if not img_path.exists():
-                print(f"Missing image: {img_path}")
+                print(f"Missing image in {subset}: {img_path}")
                 continue
 
-            with Image.open(img_path) as im:
-                width, height = im.size
+            # Load base image to get size
+            image = Image.open(img_path)
+            w, h = image.size
 
-            mask = Image.new("L", (width, height), 0)
+            # Mask: Single channel, values are class IDs
+            mask = Image.new("L", (w, h), 0)
             draw = ImageDraw.Draw(mask)
 
             anns = image_annotations.get(img_id, [])
 
             for ann in anns:
-                cat = ann["category_id"]
-                label = cat2label[cat]  # remap e.g. 1→0, 2→1
+                class_id = ann["category_id"]  # 1 or 2
 
                 for seg in ann["segmentation"]:
-                    polygon = [(seg[i], seg[i+1]) for i in range(0, len(seg), 2)]
-                    draw.polygon(polygon, fill=label)
+                    poly = [(int(seg[i]), int(seg[i + 1])) for i in range(0, len(seg), 2)]
+                    draw.polygon(poly, fill=class_id)
 
-            mask.save(masks_dir / filename)
-            print(f"[MMSeg Mask Saved] {masks_dir/filename}")
+            # Save mask
+            out_path = out_dir / (Path(filename).stem + ".png")
+            mask.save(out_path)
 
-    print("\nMMSeg grayscale masks created successfully.\n")
+            print(f"[{subset}] Saved mask: {out_path}")
+
+    print("Mask generation completed.")
 
 def convert_to_coco_format(input_json_path, output_json_path, logger=None):
 
