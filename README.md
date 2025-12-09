@@ -5,8 +5,11 @@ GitHub repository for the [Solafune Tree Canopy Detection Hackathon.](https://so
 steps: 
 - run main.py first
 - in terminal:
-    - activate .venv by ".venv/Scripts/activate"
-    - $env:PYTHONPATH="C:\Users\keini\OneDrive\Desktop\Code\TreeCanopyDetection"
-    - python ../mmsegmentation/tools/train.py configs\trcnpy_cnfg.py (succesful if work_dirs has a .pth file)
+    
+.venv/Scripts/activate
+    
+$env:PYTHONPATH="C:/Users/keini/OneDrive/Desktop/Code/TreeCanopyDetection"
+
+python ../mmsegmentation/tools/train.py configs/trcnpy_cnfg.py
 
 
