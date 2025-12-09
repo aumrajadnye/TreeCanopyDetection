@@ -5,6 +5,7 @@ custom_imports = dict(
 
 _base_ = [
     'C:/Users/harsh/Desktop/Keinisha/mmsegmentation/configs/_base_/models/fcn_unet_s5-d16.py',
+    # 'C:/Users/harsh/Desktop/Keinisha/mmsegmentation/configs/_base_/models/deeplabv3_unet_s5-d16.py',
     'C:/Users/harsh/Desktop/Keinisha/mmsegmentation/configs/_base_/default_runtime.py',
     'C:/Users/harsh/Desktop/Keinisha/mmsegmentation/configs/_base_/schedules/schedule_40k.py'
 ]
@@ -63,7 +64,7 @@ data = dict(
         img_dir='images/val',
         ann_dir='mmseg_masks/val',
         pipeline=test_pipeline,
-        test_mode=True
+        test_mode=False
     ),
     test=dict(
         type='TCD_Dataset',

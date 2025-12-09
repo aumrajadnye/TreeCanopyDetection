@@ -4,7 +4,7 @@ from PIL import Image
 import matplotlib.pyplot as plt
 
 config_file = 'configs/trcnpy_cnfg.py'
-checkpoint_file = 'work_dirs/trcnpy_cnfg/iter_200.pth'
+checkpoint_file = 'work_dirs/trcnpy_cnfg/iter_7000.pth'
 
 # Initialize the model
 model = init_segmentor(config_file, checkpoint_file, device='cuda:0')
@@ -12,11 +12,11 @@ model = init_segmentor(config_file, checkpoint_file, device='cuda:0')
 # Input image
 # img = 'data/training_data_object_detection/images/test/10cm_evaluation_1.png'
 
-img = 'data/training_data_object_detection/images/val/10cm_train_10.png'
-overlay_path = 'data/training_data_object_detection/seg_overlays/val/10cm_train_10.png'
+img = 'data/training_data_object_detection/images/train/10cm_train_20.png'
+mask_path = 'data/training_data_object_detection/mmseg_masks/train/10cm_train_20.png'
 
 image = np.array(Image.open(img))
-mask = np.array(Image.open(overlay_path))
+mask = np.array(Image.open(mask_path))
 # Inference
 result = inference_segmentor(model, img)
 pred_mask = result[0] 
@@ -32,12 +32,12 @@ axes[0].axis('off')
 
 # Mask
 axes[1].imshow(mask)
-axes[1].set_title('Expected result')
+axes[1].set_title('Expected mask')
 axes[1].axis('off')
 
 # Overlay
-axes[2].imshow(pred_mask, cmap='tab20')
-axes[2].set_title('Actual result')
+axes[2].imshow(pred_mask)
+axes[2].set_title('Actual mask')
 axes[2].axis('off')
 
 plt.show()
