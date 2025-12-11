@@ -1,0 +1,604 @@
+{
+    "images": [
+        {
+            "file_name": "10cm_evaluation_1.tif",
+            "scene_type": "urban_area"
+        },
+        {
+            "file_name": "10cm_evaluation_10.tif",
+            "scene_type": "urban_area"
+        },
+        {
+            "file_name": "10cm_evaluation_11.tif",
+            "scene_type": "rural_area"
+        },
+        {
+            "file_name": "10cm_evaluation_12.tif",
+            "scene_type": "rural_area"
+        },
+        {
+            "file_name": "10cm_evaluation_13.tif",
+            "scene_type": "agriculture_plantation"
+        },
+        {
+            "file_name": "10cm_evaluation_14.tif",
+            "scene_type": "agriculture_plantation"
+        },
+        {
+            "file_name": "10cm_evaluation_15.tif",
+            "scene_type": "agriculture_plantation"
+        },
+        {
+            "file_name": "10cm_evaluation_16.tif",
+            "scene_type": "agriculture_plantation"
+        },
+        {
+            "file_name": "10cm_evaluation_17.tif",
+            "scene_type": "agriculture_plantation"
+        },
+        {
+            "file_name": "10cm_evaluation_18.tif",
+            "scene_type": "agriculture_plantation"
+        },
+        {
+            "file_name": "10cm_evaluation_19.tif",
+            "scene_type": "agriculture_plantation"
+        },
+        {
+            "file_name": "10cm_evaluation_2.tif",
+            "scene_type": "agriculture_plantation"
+        },
+        {
+            "file_name": "10cm_evaluation_20.tif",
+            "scene_type": "agriculture_plantation"
+        },
+        {
+            "file_name": "10cm_evaluation_21.tif",
+            "scene_type": "agriculture_plantation"
+        },
+        {
+            "file_name": "10cm_evaluation_22.tif",
+            "scene_type": "agriculture_plantation"
+        },
+        {
+            "file_name": "10cm_evaluation_23.tif",
+            "scene_type": "agriculture_plantation"
+        },
+        {
+            "file_name": "10cm_evaluation_24.tif",
+            "scene_type": "agriculture_plantation"
+        },
+        {
+            "file_name": "10cm_evaluation_25.tif",
+            "scene_type": "agriculture_plantation"
+        },
+        {
+            "file_name": "10cm_evaluation_26.tif",
+            "scene_type": "agriculture_plantation"
+        },
+        {
+            "file_name": "10cm_evaluation_27.tif",
+            "scene_type": "agriculture_plantation"
+        },
+        {
+            "file_name": "10cm_evaluation_28.tif",
+            "scene_type": "rural_area"
+        },
+        {
+            "file_name": "10cm_evaluation_29.tif",
+            "scene_type": "agriculture_plantation"
+        },
+        {
+            "file_name": "10cm_evaluation_3.tif",
+            "scene_type": "open_field"
+        },
+        {
+            "file_name": "10cm_evaluation_30.tif",
+            "scene_type": "rural_area"
+        },
+        {
+            "file_name": "10cm_evaluation_31.tif",
+            "scene_type": "agriculture_plantation"
+        },
+        {
+            "file_name": "10cm_evaluation_32.tif",
+            "scene_type": "rural_area"
+        },
+        {
+            "file_name": "10cm_evaluation_33.tif",
+            "scene_type": "agriculture_plantation"
+        },
+        {
+            "file_name": "10cm_evaluation_34.tif",
+            "scene_type": "agriculture_plantation"
+        },
+        {
+            "file_name": "10cm_evaluation_35.tif",
+            "scene_type": "agriculture_plantation"
+        },
+        {
+            "file_name": "10cm_evaluation_36.tif",
+            "scene_type": "agriculture_plantation"
+        },
+        {
+            "file_name": "10cm_evaluation_37.tif",
+            "scene_type": "agriculture_plantation"
+        },
+        {
+            "file_name": "10cm_evaluation_38.tif",
+            "scene_type": "agriculture_plantation"
+        },
+        {
+            "file_name": "10cm_evaluation_4.tif",
+            "scene_type": "rural_area"
+        },
+        {
+            "file_name": "10cm_evaluation_5.tif",
+            "scene_type": "rural_area"
+        },
+        {
+            "file_name": "10cm_evaluation_6.tif",
+            "scene_type": "urban_area"
+        },
+        {
+            "file_name": "10cm_evaluation_7.tif",
+            "scene_type": "agriculture_plantation"
+        },
+        {
+            "file_name": "10cm_evaluation_8.tif",
+            "scene_type": "rural_area"
+        },
+        {
+            "file_name": "10cm_evaluation_9.tif",
+            "scene_type": "urban_area"
+        },
+        {
+            "file_name": "20cm_evaluation_39.tif",
+            "scene_type": "urban_area"
+        },
+        {
+            "file_name": "20cm_evaluation_40.tif",
+            "scene_type": "urban_area"
+        },
+        {
+            "file_name": "20cm_evaluation_41.tif",
+            "scene_type": "urban_area"
+        },
+        {
+            "file_name": "20cm_evaluation_42.tif",
+            "scene_type": "agriculture_plantation"
+        },
+        {
+            "file_name": "20cm_evaluation_43.tif",
+            "scene_type": "urban_area"
+        },
+        {
+            "file_name": "20cm_evaluation_44.tif",
+            "scene_type": "agriculture_plantation"
+        },
+        {
+            "file_name": "20cm_evaluation_45.tif",
+            "scene_type": "agriculture_plantation"
+        },
+        {
+            "file_name": "20cm_evaluation_46.tif",
+            "scene_type": "agriculture_plantation"
+        },
+        {
+            "file_name": "20cm_evaluation_47.tif",
+            "scene_type": "agriculture_plantation"
+        },
+        {
+            "file_name": "20cm_evaluation_48.tif",
+            "scene_type": "agriculture_plantation"
+        },
+        {
+            "file_name": "20cm_evaluation_49.tif",
+            "scene_type": "urban_area"
+        },
+        {
+            "file_name": "20cm_evaluation_50.tif",
+            "scene_type": "agriculture_plantation"
+        },
+        {
+            "file_name": "20cm_evaluation_51.tif",
+            "scene_type": "agriculture_plantation"
+        },
+        {
+            "file_name": "20cm_evaluation_52.tif",
+            "scene_type": "rural_area"
+        },
+        {
+            "file_name": "20cm_evaluation_53.tif",
+            "scene_type": "agriculture_plantation"
+        },
+        {
+            "file_name": "20cm_evaluation_54.tif",
+            "scene_type": "agriculture_plantation"
+        },
+        {
+            "file_name": "20cm_evaluation_55.tif",
+            "scene_type": "agriculture_plantation"
+        },
+        {
+            "file_name": "20cm_evaluation_56.tif",
+            "scene_type": "rural_area"
+        },
+        {
+            "file_name": "20cm_evaluation_57.tif",
+            "scene_type": "agriculture_plantation"
+        },
+        {
+            "file_name": "20cm_evaluation_58.tif",
+            "scene_type": "agriculture_plantation"
+        },
+        {
+            "file_name": "20cm_evaluation_59.tif",
+            "scene_type": "agriculture_plantation"
+        },
+        {
+            "file_name": "20cm_evaluation_60.tif",
+            "scene_type": "agriculture_plantation"
+        },
+        {
+            "file_name": "20cm_evaluation_61.tif",
+            "scene_type": "agriculture_plantation"
+        },
+        {
+            "file_name": "20cm_evaluation_62.tif",
+            "scene_type": "agriculture_plantation"
+        },
+        {
+            "file_name": "20cm_evaluation_63.tif",
+            "scene_type": "rural_area"
+        },
+        {
+            "file_name": "20cm_evaluation_64.tif",
+            "scene_type": "agriculture_plantation"
+        },
+        {
+            "file_name": "20cm_evaluation_65.tif",
+            "scene_type": "agriculture_plantation"
+        },
+        {
+            "file_name": "20cm_evaluation_66.tif",
+            "scene_type": "agriculture_plantation"
+        },
+        {
+            "file_name": "20cm_evaluation_67.tif",
+            "scene_type": "urban_area"
+        },
+        {
+            "file_name": "20cm_evaluation_68.tif",
+            "scene_type": "agriculture_plantation"
+        },
+        {
+            "file_name": "20cm_evaluation_69.tif",
+            "scene_type": "agriculture_plantation"
+        },
+        {
+            "file_name": "20cm_evaluation_70.tif",
+            "scene_type": "urban_area"
+        },
+        {
+            "file_name": "20cm_evaluation_71.tif",
+            "scene_type": "agriculture_plantation"
+        },
+        {
+            "file_name": "20cm_evaluation_72.tif",
+            "scene_type": "urban_area"
+        },
+        {
+            "file_name": "20cm_evaluation_73.tif",
+            "scene_type": "urban_area"
+        },
+        {
+            "file_name": "20cm_evaluation_74.tif",
+            "scene_type": "rural_area"
+        },
+        {
+            "file_name": "20cm_evaluation_75.tif",
+            "scene_type": "urban_area"
+        },
+        {
+            "file_name": "40cm_evaluation_100.tif",
+            "scene_type": "rural_area"
+        },
+        {
+            "file_name": "40cm_evaluation_76.tif",
+            "scene_type": "urban_area"
+        },
+        {
+            "file_name": "40cm_evaluation_77.tif",
+            "scene_type": "rural_area"
+        },
+        {
+            "file_name": "40cm_evaluation_78.tif",
+            "scene_type": "rural_area"
+        },
+        {
+            "file_name": "40cm_evaluation_79.tif",
+            "scene_type": "urban_area"
+        },
+        {
+            "file_name": "40cm_evaluation_80.tif",
+            "scene_type": "rural_area"
+        },
+        {
+            "file_name": "40cm_evaluation_81.tif",
+            "scene_type": "rural_area"
+        },
+        {
+            "file_name": "40cm_evaluation_82.tif",
+            "scene_type": "rural_area"
+        },
+        {
+            "file_name": "40cm_evaluation_83.tif",
+            "scene_type": "urban_area"
+        },
+        {
+            "file_name": "40cm_evaluation_84.tif",
+            "scene_type": "rural_area"
+        },
+        {
+            "file_name": "40cm_evaluation_85.tif",
+            "scene_type": "rural_area"
+        },
+        {
+            "file_name": "40cm_evaluation_86.tif",
+            "scene_type": "urban_area"
+        },
+        {
+            "file_name": "40cm_evaluation_87.tif",
+            "scene_type": "rural_area"
+        },
+        {
+            "file_name": "40cm_evaluation_88.tif",
+            "scene_type": "urban_area"
+        },
+        {
+            "file_name": "40cm_evaluation_89.tif",
+            "scene_type": "urban_area"
+        },
+        {
+            "file_name": "40cm_evaluation_90.tif",
+            "scene_type": "rural_area"
+        },
+        {
+            "file_name": "40cm_evaluation_91.tif",
+            "scene_type": "urban_area"
+        },
+        {
+            "file_name": "40cm_evaluation_92.tif",
+            "scene_type": "urban_area"
+        },
+        {
+            "file_name": "40cm_evaluation_93.tif",
+            "scene_type": "urban_area"
+        },
+        {
+            "file_name": "40cm_evaluation_94.tif",
+            "scene_type": "rural_area"
+        },
+        {
+            "file_name": "40cm_evaluation_95.tif",
+            "scene_type": "rural_area"
+        },
+        {
+            "file_name": "40cm_evaluation_96.tif",
+            "scene_type": "rural_area"
+        },
+        {
+            "file_name": "40cm_evaluation_97.tif",
+            "scene_type": "rural_area"
+        },
+        {
+            "file_name": "40cm_evaluation_98.tif",
+            "scene_type": "rural_area"
+        },
+        {
+            "file_name": "40cm_evaluation_99.tif",
+            "scene_type": "urban_area"
+        },
+        {
+            "file_name": "60cm_evaluation_101.tif",
+            "scene_type": "urban_area"
+        },
+        {
+            "file_name": "60cm_evaluation_102.tif",
+            "scene_type": "urban_area"
+        },
+        {
+            "file_name": "60cm_evaluation_103.tif",
+            "scene_type": "urban_area"
+        },
+        {
+            "file_name": "60cm_evaluation_104.tif",
+            "scene_type": "urban_area"
+        },
+        {
+            "file_name": "60cm_evaluation_105.tif",
+            "scene_type": "urban_area"
+        },
+        {
+            "file_name": "60cm_evaluation_106.tif",
+            "scene_type": "urban_area"
+        },
+        {
+            "file_name": "60cm_evaluation_107.tif",
+            "scene_type": "urban_area"
+        },
+        {
+            "file_name": "60cm_evaluation_108.tif",
+            "scene_type": "urban_area"
+        },
+        {
+            "file_name": "60cm_evaluation_109.tif",
+            "scene_type": "urban_area"
+        },
+        {
+            "file_name": "60cm_evaluation_110.tif",
+            "scene_type": "rural_area"
+        },
+        {
+            "file_name": "60cm_evaluation_111.tif",
+            "scene_type": "rural_area"
+        },
+        {
+            "file_name": "60cm_evaluation_112.tif",
+            "scene_type": "urban_area"
+        },
+        {
+            "file_name": "60cm_evaluation_113.tif",
+            "scene_type": "urban_area"
+        },
+        {
+            "file_name": "60cm_evaluation_114.tif",
+            "scene_type": "agriculture_plantation"
+        },
+        {
+            "file_name": "60cm_evaluation_115.tif",
+            "scene_type": "rural_area"
+        },
+        {
+            "file_name": "60cm_evaluation_116.tif",
+            "scene_type": "rural_area"
+        },
+        {
+            "file_name": "60cm_evaluation_117.tif",
+            "scene_type": "rural_area"
+        },
+        {
+            "file_name": "60cm_evaluation_118.tif",
+            "scene_type": "urban_area"
+        },
+        {
+            "file_name": "60cm_evaluation_119.tif",
+            "scene_type": "urban_area"
+        },
+        {
+            "file_name": "60cm_evaluation_120.tif",
+            "scene_type": "urban_area"
+        },
+        {
+            "file_name": "60cm_evaluation_121.tif",
+            "scene_type": "urban_area"
+        },
+        {
+            "file_name": "60cm_evaluation_122.tif",
+            "scene_type": "urban_area"
+        },
+        {
+            "file_name": "60cm_evaluation_123.tif",
+            "scene_type": "urban_area"
+        },
+        {
+            "file_name": "60cm_evaluation_124.tif",
+            "scene_type": "urban_area"
+        },
+        {
+            "file_name": "60cm_evaluation_125.tif",
+            "scene_type": "urban_area"
+        },
+        {
+            "file_name": "80cm_evaluation_126.tif",
+            "scene_type": "urban_area"
+        },
+        {
+            "file_name": "80cm_evaluation_127.tif",
+            "scene_type": "agriculture_plantation"
+        },
+        {
+            "file_name": "80cm_evaluation_128.tif",
+            "scene_type": "urban_area"
+        },
+        {
+            "file_name": "80cm_evaluation_129.tif",
+            "scene_type": "urban_area"
+        },
+        {
+            "file_name": "80cm_evaluation_130.tif",
+            "scene_type": "rural_area"
+        },
+        {
+            "file_name": "80cm_evaluation_131.tif",
+            "scene_type": "urban_area"
+        },
+        {
+            "file_name": "80cm_evaluation_132.tif",
+            "scene_type": "rural_area"
+        },
+        {
+            "file_name": "80cm_evaluation_133.tif",
+            "scene_type": "rural_area"
+        },
+        {
+            "file_name": "80cm_evaluation_134.tif",
+            "scene_type": "agriculture_plantation"
+        },
+        {
+            "file_name": "80cm_evaluation_135.tif",
+            "scene_type": "urban_area"
+        },
+        {
+            "file_name": "80cm_evaluation_136.tif",
+            "scene_type": "urban_area"
+        },
+        {
+            "file_name": "80cm_evaluation_137.tif",
+            "scene_type": "rural_area"
+        },
+        {
+            "file_name": "80cm_evaluation_138.tif",
+            "scene_type": "rural_area"
+        },
+        {
+            "file_name": "80cm_evaluation_139.tif",
+            "scene_type": "urban_area"
+        },
+        {
+            "file_name": "80cm_evaluation_140.tif",
+            "scene_type": "agriculture_plantation"
+        },
+        {
+            "file_name": "80cm_evaluation_141.tif",
+            "scene_type": "urban_area"
+        },
+        {
+            "file_name": "80cm_evaluation_142.tif",
+            "scene_type": "rural_area"
+        },
+        {
+            "file_name": "80cm_evaluation_143.tif",
+            "scene_type": "agriculture_plantation"
+        },
+        {
+            "file_name": "80cm_evaluation_144.tif",
+            "scene_type": "urban_area"
+        },
+        {
+            "file_name": "80cm_evaluation_145.tif",
+            "scene_type": "urban_area"
+        },
+        {
+            "file_name": "80cm_evaluation_146.tif",
+            "scene_type": "agriculture_plantation"
+        },
+        {
+            "file_name": "80cm_evaluation_147.tif",
+            "scene_type": "urban_area"
+        },
+        {
+            "file_name": "80cm_evaluation_148.tif",
+            "scene_type": "rural_area"
+        },
+        {
+            "file_name": "80cm_evaluation_149.tif",
+            "scene_type": "urban_area"
+        },
+        {
+            "file_name": "80cm_evaluation_150.tif",
+            "scene_type": "agriculture_plantation"
+        }
+    ]
+}
