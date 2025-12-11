@@ -4,7 +4,7 @@ from PIL import Image
 import matplotlib.pyplot as plt
 
 config_file = 'configs/trcnpy_cnfg.py'
-checkpoint_file = 'work_dirs/trcnpy_cnfg/iter_7000.pth'
+checkpoint_file = 'work_dirs/trcnpy_cnfg/iter_10000.pth'
 
 # Initialize the model
 model = init_segmentor(config_file, checkpoint_file, device='cuda:0')
@@ -12,8 +12,10 @@ model = init_segmentor(config_file, checkpoint_file, device='cuda:0')
 # Input image
 # img = 'data/training_data_object_detection/images/test/10cm_evaluation_1.png'
 
-img = 'data/training_data_object_detection/images/train/10cm_train_20.png'
-mask_path = 'data/training_data_object_detection/mmseg_masks/train/10cm_train_20.png'
+img = 'data/training_data_object_detection/images/val/20cm_train_63.png'
+mask_path = 'data/training_data_object_detection/mmseg_masks/val/20cm_train_63.png'
+# img = 'data/training_data_object_detection/images/train/10cm_train_9.png'
+# mask_path = 'data/training_data_object_detection/mmseg_masks/train/10cm_train_9.png'
 
 image = np.array(Image.open(img))
 mask = np.array(Image.open(mask_path))

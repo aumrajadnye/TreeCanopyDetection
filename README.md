@@ -66,7 +66,10 @@ pip install numpy<2
 
 pip freeze > requirements_mmseg.txt
 
+python ../mmsegmentation/tools/train.py configs/trcnpy_cnfg.py --resume-from work_dirs/trcnpy_cnfg/latest.pth
+
 python ../mmsegmentation/tools/train.py configs/trcnpy_cnfg.py
+
 
 
 
